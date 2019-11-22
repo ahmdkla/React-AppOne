@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 
-const apiurl = `https://jsonplaceholder.typicode.com/users`;
+const API_STRING = `https://jsonplaceholder.typicode.com/users`;
 
 export default class Users extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ export default class Users extends Component {
 
   componentDidMount = () => {
     axios
-      .get(apiurl)
+      .get(API_STRING)
       .then(res => {
         this.setState({ data: res.data });
       })
