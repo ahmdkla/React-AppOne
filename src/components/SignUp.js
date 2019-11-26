@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   "@global": {
@@ -53,13 +54,21 @@ function SignUp(props) {
         </Typography>
         <Formik
           initialValues={{
+            firstName: "",
+            lastName: "",
             email: "",
             password: ""
           }}
           validate={validationForm}
           onSubmit={(values, { setSubmitting }) => {
-            localStorage.setItem("user", JSON.stringify(values));
-            props.history.push("/signin");
+            Axios.post("http://localhost:3000/tezz", values).then(response => {
+              if (response.status === 201) {
+                localStorage.setItem("user", JSON.stringify(values));
+                props.history.push("/signin");
+              }
+            });
+            // localStorage.setItem("user", JSON.stringify(values))
+            // props.history.push("/signin")
           }}
         >
           {({

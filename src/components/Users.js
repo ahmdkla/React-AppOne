@@ -29,6 +29,7 @@ export default class Users extends Component {
   };
 
   render() {
+    console.log(this.state.data)
     return (
       <div
         style={{
