@@ -172,7 +172,7 @@ function SignUp(props) {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="/signin" variant="body2">
+                  <Link to="/signin" variant="body2">
                     Already have an account, sign in?
                   </Link>
                 </Grid>
