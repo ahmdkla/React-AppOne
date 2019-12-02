@@ -3,18 +3,17 @@ import { withRouter } from "react-router-dom";
 import MemberHeader from "./member/Header";
 import GuestHeader from "./guest/Header";
 import Particles from "react-particles-js";
-
 function Header() {
   let ParticleParams = {
     particles: {
       number: {
-        value: 160,
+        value: 80,
         density: {
           enable: false
         }
       },
       size: {
-        value: 8,
+        value: 18,
         random: true
       },
       move: {

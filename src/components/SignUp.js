@@ -59,6 +59,7 @@ function SignUp(props) {
           validate={validationForm}
           onSubmit={(values, { setSubmitting }) => {
             localStorage.setItem("user", JSON.stringify(values));
+            props.history.push('/signin')
           }}
         >
           {({

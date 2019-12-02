@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import Typography from "@material-ui/core/Typography";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Swal from "sweetalert2";
+import { Typography, Container } from "@material-ui/core";
 
 const API_STRING = process.env.REACT_APP_API_PLACEHOLDER;
 
@@ -172,58 +172,99 @@ export class UserPost extends Component {
   render() {
     return (
       <div>
-        <Button
-          onClick={() => {
-            this.addPost();
+        <Container
+          style={{
+            background: "rgb(255,255,255,.5)",
+            padding: "5em",
+            textAlign: "center"
           }}
         >
-          Add New Post
-        </Button>
-        {this.state.data.length > 0 &&
-          this.state.data.map((item, key) => {
-            return (
-              <List>
-                <ListItem alignItems="flex-start">
-                  <ListItemText
-                    primary={item.userId}
-                    secondary={
-                      <React.Fragment>
-                        <Typography variant="h4" color="textPrimary">
-                          {item.title}
-                          <br />
+          <Typography variant="h1" component="h2">
+            Ini adalah User Post
+          </Typography>
+          <Button
+            style={{ margin: "2em" }}
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={() => {
+              this.addPost();
+            }}
+          >
+            Add Post
+          </Button>
+          {this.state.data.length > 0 &&
+            this.state.data.map((item, key) => {
+              return (
+                <List>
+                  <ListItem alignItems="flex-start">
+                    <ListItemText
+                      primary={
+                        <Typography
+                          style={{
+                            color: "white",
+                            background: "blue",
+                            textAlign: "center"
+                          }}
+                          variant="h4"
+                          color="textPrimary"
+                        >
+                          User with ID : {item.userId}
                         </Typography>
-                        <Typography variant="h6" color="textSecondary">
-                          {item.body}
-                          <br />
-                        </Typography>
-                      </React.Fragment>
-                    }
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    margin="props"
-                    style={{ margin: "50px" }}
-                    onClick={() => {
-                      this.onEdit(item.id, key);
-                    }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    style={{ margin: "50px" }}
-                    onClick={() => {
-                      this.onDelete(item.id, key);
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </ListItem>
-              </List>
-            );
-          })}
+                      }
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            style={{
+                              padding: "1em"
+                            }}
+                            variant="h4"
+                            color="textPrimary"
+                          >
+                            {item.title}
+                            <br />
+                          </Typography>
+                          <Typography
+                            style={{
+                              border: "1px solid blue",
+                              margin: "1em",
+                              padding: "1em"
+                            }}
+                            variant="h6"
+                            color="textSecondary"
+                          >
+                            {item.body}
+                            <br />
+                          </Typography>
+                        </React.Fragment>
+                      }
+                    />
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      margin="props"
+                      style={{ margin: "50px" }}
+                      onClick={() => {
+                        this.onEdit(item.id, key);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      style={{ margin: "50px" }}
+                      onClick={() => {
+                        this.onDelete(item.id, key);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </ListItem>
+                </List>
+              );
+            })}
+        </Container>
       </div>
     );
   }

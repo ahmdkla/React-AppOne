@@ -1,6 +1,6 @@
 body {
   margin: 0 auto;
-  background: linear-gradient(to right, rgb(203, 52, 97), rgb(22, 12, 165));
+  background: rgba(6, 17, 78, 0.7) !important;
   color: white;
 }
 canvas {
