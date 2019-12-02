@@ -1,35 +1,87 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
-export default function Header() {
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  menuButton: {
+    marginRight: theme.spacing(2)
+  },
+  title: {
+    flexGrow: 1
+  },
+  buttonMargin: {
+    margin: "0 1.5em"
+  },
+  bgGr: {
+    backgroundColor: "linear-gradient(to right bottom, #430089, #82ffa1)"
+  }
+}));
+
+function Header(props) {
+  const classes = useStyles();
+
+  const logOut = () => {
+    localStorage.isLogin = false;
+    props.history.push("/signIn");
+  };
+
   return (
-    <nav>
-      <ul
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          listStyleType: "none"
-        }}
-      >
-        <li style={{ margin: "0 10px" }}>
-          <Link to="/">Home</Link>
-        </li>
-        <li style={{ margin: "0 10px" }}>
-          <Link to="/about">About</Link>
-        </li>
-        <li style={{ margin: "0 10px" }}>
-          <Link to="/contact">Contact</Link>
-        </li>
-        <li style={{ margin: "0 10px" }}>
-          <Link to="/users">Users</Link>
-        </li>
-        <li style={{ margin: "0 10px" }}>
-          <Link to="/signin">Sign In</Link>
-        </li>
-        <li style={{ margin: "0 10px" }}>
-          <Link to="/signup">Sign Up</Link>
-        </li>
-      </ul>
-    </nav>
+    <AppBar position="fixed" className={classes.bgGr}>
+      <Toolbar>
+        <Typography variant="h4" className={classes.title}>
+          Learning React
+        </Typography>
+        <Button
+          className={classes.buttonMargin}
+          color="inherit"
+          component={Link}
+          to={"/"}
+        >
+          Home
+        </Button>
+        <Button
+          className={classes.buttonMargin}
+          color="inherit"
+          component={Link}
+          to={"/About"}
+        >
+          About
+        </Button>
+        <Button
+          className={classes.buttonMargin}
+          color="inherit"
+          component={Link}
+          to={"/Contact"}
+        >
+          Contact
+        </Button>
+        <Button
+          className={classes.buttonMargin}
+          color="inherit"
+          component={Link}
+          to={"/users"}
+        >
+          User
+        </Button>
+        <Button
+          className={classes.buttonMargin}
+          color="inherit"
+          href="#/"
+          onClick={logOut}
+          style={{backgroundColor:'maroon'}}
+        >
+          Logout
+        </Button>
+      </Toolbar>
+    </AppBar>
   );
 }
+
+export default withRouter(Header);

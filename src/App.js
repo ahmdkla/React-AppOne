@@ -1,9 +1,6 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import "./app.css";
 import {
   Home,
   About,
@@ -16,9 +13,10 @@ import {
 } from "./components";
 
 function App() {
+  
   return (
     <Router>
-      <Header />
+      <Header/>
       <Switch>
         <Route path="/about">
           <About />

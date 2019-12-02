@@ -12,19 +12,16 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import Axios from "axios";
 
 const useStyles = makeStyles(theme => ({
-  "@global": {
-    body: {
-      backgroundColor: theme.palette.common.white
-    }
-  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    padding: "3vw",
+    borderRadius: "5%",
+    backgroundColor: "rgb(255,255,255)"
   },
   avatar: {
     margin: theme.spacing(1),
@@ -61,14 +58,7 @@ function SignUp(props) {
           }}
           validate={validationForm}
           onSubmit={(values, { setSubmitting }) => {
-            Axios.post("http://localhost:3000/tezz", values).then(response => {
-              if (response.status === 201) {
-                localStorage.setItem("user", JSON.stringify(values));
-                props.history.push("/signin");
-              }
-            });
-            // localStorage.setItem("user", JSON.stringify(values))
-            // props.history.push("/signin")
+            localStorage.setItem("user", JSON.stringify(values));
           }}
         >
           {({
@@ -76,7 +66,6 @@ function SignUp(props) {
             handleChange,
             handleBlur,
             handleSubmit,
-            isSubmitting
           }) => (
             <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <Grid container spacing={2}>
@@ -182,8 +171,8 @@ function SignUp(props) {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    Already have an account? Sign in
+                  <Link href="/signin" variant="body2">
+                    Already have an account, sign in?
                   </Link>
                 </Grid>
               </Grid>

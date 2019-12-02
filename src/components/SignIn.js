@@ -8,36 +8,20 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const useStyles = makeStyles(theme => ({
-  "@global": {
-    body: {
-      backgroundColor: theme.palette.common.white
-    }
-  },
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    padding: "3vw",
+    borderRadius: "5%",
+    backgroundColor: "rgb(255,255,255)"
   },
   avatar: {
     margin: theme.spacing(1),
@@ -53,16 +37,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function SignIn(props) {
-  // constructor(props) {
-  //     super(props)
-
-  //     this.state = {
-  //          email:"",
-  //          password:""
-  //     }
-  // }
-  // this.setState()
-
   const classes = useStyles();
 
   const [signIn, setSignIn] = React.useState({ email: "", password: "" });
@@ -84,10 +58,6 @@ function SignIn(props) {
   };
 
   const handleChange = event => {
-    // this.setState({
-    //     ...this.state,
-    //     [event.target.name]: event.target.value
-    // })
     setSignIn({
       ...signIn,
       [event.target.name]: event.target.value
@@ -144,12 +114,7 @@ function SignIn(props) {
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
+          <Grid container justify="flex-end">
             <Grid item>
               <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
@@ -158,9 +123,6 @@ function SignIn(props) {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }
