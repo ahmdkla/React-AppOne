@@ -11,10 +11,6 @@ export const loginValidation = async values => {
 
     return { ...errors, ...result };
   } catch (err) {
-    throw Swal.fire({
-      icon: "success",
-      title: "Your new post is successfully added",
-      text: err
-    });
+    throw err;
   }
 };
