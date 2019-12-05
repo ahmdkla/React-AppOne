@@ -1,17 +1,17 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import axios from "axios";
+import { Formik, ErrorMessage } from "formik";
+import { loginValidation } from "./validation";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -19,9 +19,9 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "3vw",
-    borderRadius: "5%",
-    backgroundColor: "rgb(255,255,255)"
+    background: "rgb(255,255,255)",
+    padding: "4em",
+    borderRadius: "10%"
   },
   avatar: {
     margin: theme.spacing(1),
@@ -39,31 +39,6 @@ const useStyles = makeStyles(theme => ({
 function SignIn(props) {
   const classes = useStyles();
 
-  const [signIn, setSignIn] = React.useState({ email: "", password: "" });
-
-  const handleSubmit = event => {
-    event.preventDefault();
-
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if (user.email === signIn.email && user.password === signIn.password) {
-      localStorage.setItem("isLogin", JSON.stringify(true));
-
-      if (JSON.parse(localStorage.getItem("isLogin")) === true) {
-        props.history.push("/");
-      }
-    } else {
-      alert("email atau password salah");
-    }
-  };
-
-  const handleChange = event => {
-    setSignIn({
-      ...signIn,
-      [event.target.name]: event.target.value
-    });
-  };
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -74,54 +49,98 @@ function SignIn(props) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            defaultValue={signIn.email}
-            onChange={handleChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            defaultValue={signIn.password}
-            onChange={handleChange}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link to="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
+        <Formik
+          initialValues={{
+            email: "",
+            password: ""
+          }}
+          validate={loginValidation}
+          onSubmit={values => {
+            axios
+              .post(`${process.env.REACT_APP_API}/users/login`, values)
+              .then(response => {
+                if (response.status === 200) {
+                  localStorage.setItem(
+                    "user",
+                    JSON.stringify(response.data.data)
+                  );
+                  localStorage.setItem("isLogin", true);
+                  props.history.push("/todo");
+                }
+              });
+          }}
+        >
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting
+          }) => (
+            <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                defaultValue={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <p
+                style={{
+                  color: "red",
+                  fontStyle: "italic"
+                }}
+              >
+                <ErrorMessage name="email" />
+              </p>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                defaultValue={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              <p
+                style={{
+                  color: "red",
+                  fontStyle: "italic"
+                }}
+              >
+                <ErrorMessage name="password" />
+              </p>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign In
+              </Button>
+              <Grid container>
+                <Grid item>
+                  <Link to="/signup" variant="body2">
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </form>
+          )}
+        </Formik>
       </div>
     </Container>
   );

@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { Formik, ErrorMessage } from "formik";
-import { validationForm } from "../validate";
+import { validationForm } from "./validation";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import Axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -19,9 +20,9 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: "3vw",
-    borderRadius: "5%",
-    backgroundColor: "rgb(255,255,255)"
+    background: "rgb(255,255,255)",
+    padding: "4em",
+    borderRadius: "10%"
   },
   avatar: {
     margin: theme.spacing(1),
@@ -58,8 +59,13 @@ function SignUp(props) {
           }}
           validate={validationForm}
           onSubmit={(values, { setSubmitting }) => {
-            localStorage.setItem("user", JSON.stringify(values));
-            props.history.push('/signin')
+            Axios.post(`${process.env.REACT_APP_API}/users`, values).then(
+              response => {
+                if (response.status === 200) {
+                  props.history.push("/signin");
+                }
+              }
+            );
           }}
         >
           {({
@@ -67,8 +73,9 @@ function SignUp(props) {
             handleChange,
             handleBlur,
             handleSubmit,
+            isSubmitting
           }) => (
-            <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <form className={classes.form} onSubmit={handleSubmit} noValidate>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -79,10 +86,10 @@ function SignUp(props) {
                     fullWidth
                     id="firstName"
                     label="First Name"
-                    autoFocus
                     onChange={handleChange}
                     onBlur={handleBlur}
                     defaultValue={values.firstName}
+                    autoFocus
                   />
                   <p
                     style={{
@@ -93,6 +100,7 @@ function SignUp(props) {
                     <ErrorMessage name="firstName" />
                   </p>
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
                   <TextField
                     variant="outlined"
@@ -101,10 +109,10 @@ function SignUp(props) {
                     id="lastName"
                     label="Last Name"
                     name="lastName"
-                    autoComplete="lname"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     defaultValue={values.lastName}
+                    autoComplete="lname"
                   />
                   <p
                     style={{
@@ -115,6 +123,7 @@ function SignUp(props) {
                     <ErrorMessage name="lastName" />
                   </p>
                 </Grid>
+
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
@@ -123,10 +132,10 @@ function SignUp(props) {
                     id="email"
                     label="Email Address"
                     name="email"
-                    autoComplete="email"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     defaultValue={values.email}
+                    autoComplete="email"
                   />
                   <p
                     style={{
@@ -137,6 +146,7 @@ function SignUp(props) {
                     <ErrorMessage name="email" />
                   </p>
                 </Grid>
+
                 <Grid item xs={12}>
                   <TextField
                     variant="outlined"
@@ -146,10 +156,10 @@ function SignUp(props) {
                     label="Password"
                     type="password"
                     id="password"
-                    autoComplete="current-password"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     defaultValue={values.password}
+                    autoComplete="current-password"
                   />
                   <p
                     style={{
@@ -172,8 +182,8 @@ function SignUp(props) {
               </Button>
               <Grid container justify="flex-end">
                 <Grid item>
-                  <Link to="/signin" variant="body2">
-                    Already have an account, sign in?
+                  <Link href="/signin" variant="body2">
+                    Already have an account? Sign in
                   </Link>
                 </Grid>
               </Grid>

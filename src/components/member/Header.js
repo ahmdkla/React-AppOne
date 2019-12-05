@@ -73,6 +73,38 @@ function Header(props) {
         <Button
           className={classes.buttonMargin}
           color="inherit"
+          component={Link}
+          to={"/subject"}
+        >
+          Subject
+        </Button>
+        <Button
+          className={classes.buttonMargin}
+          color="inherit"
+          component={Link}
+          to={"/subjectMongoose"}
+        >
+          Subject Mongoose
+        </Button>
+        <Button
+          className={classes.buttonMargin}
+          color="inherit"
+          component={Link}
+          to={"/subjectMysql"}
+        >
+          Subject Mysql
+        </Button>
+        <Button
+          className={classes.buttonMargin}
+          color="inherit"
+          component={Link}
+          to={"/subjectSequelize"}
+        >
+          Subject Sequelize
+        </Button>
+        <Button
+          className={classes.buttonMargin}
+          color="inherit"
           href="#/"
           onClick={logOut}
           style={{backgroundColor:'maroon'}}

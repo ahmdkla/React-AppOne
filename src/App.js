@@ -9,7 +9,11 @@ import {
   Users,
   Header,
   SignIn,
-  SignUp
+  SignUp,
+  SubjectMongoose,
+  SubjectSequelize,
+  Subject,
+  SubjectMysql
 } from "./components";
 
 function App() {
@@ -38,6 +42,18 @@ function App() {
         </Route>
         <Route path="/signup">
           <SignUp />
+        </Route>
+        <Route path="/subject">
+          <Subject />
+        </Route>
+        <Route path="/subjectMongoose">
+          <SubjectMongoose />
+        </Route>
+        <Route path="/subjectMysql">
+          <SubjectMysql />
+        </Route>
+        <Route path="/subjectSequelize">
+          <SubjectSequelize />
         </Route>
       </Switch>
     </Router>
